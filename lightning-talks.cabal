@@ -22,6 +22,7 @@ executable lightning-talks
                     , DB
                     , MemberQueries
                     , MemberGateway
+                    , Server
     build-depends:    base ^>=4.17.0.0
                     , servant
                     , servant-server
@@ -44,3 +45,5 @@ executable lightning-talks
                         , ScopedTypeVariables
                         , TypeApplications
                         , FlexibleContexts
+                        , TypeOperators
+

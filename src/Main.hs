@@ -4,13 +4,13 @@ import qualified DB
 import           Member
 import           MemberGateway
 import           MemberQueries
+import           Server
 
 import           Data.Proxy    (Proxy (..))
 
 main :: IO ()
 main = do
   DB.createTable (Proxy @Member)
-  members <- fetchMembers
-  mapM_ saveMember members
-  getRandomMember >>= print
+  mapM_ saveMember =<< fetchMembers
+  runServer 8080
 

@@ -22,7 +22,7 @@ data Member = Member
   , _memberLastName  :: !Text    -- ^ The member's last name
   }
   deriving stock (Show, Generic)
-  deriving FromJSON
+  deriving (FromJSON, ToJSON)
   via CustomJSON '[FieldLabelModifier '[StripPrefix "_member", ToLower]] Member
 
 makeLenses ''Member
