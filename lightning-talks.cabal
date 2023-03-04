@@ -25,6 +25,7 @@ executable lightning-talks
                     , Server
                     , Aeson
                     , LightningTalk
+                    , LightningTalkQueries
     build-depends:    base ^>=4.17.0.0
                     , servant
                     , servant-server

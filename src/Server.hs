@@ -1,7 +1,9 @@
 module Server (runServer) where
 
+import           LightningTalk
+import qualified LightningTalkQueries     as LTQueries
 import           Member
-import qualified MemberQueries            as Queries
+import qualified MemberQueries            as MQueries
 
 import           Control.Monad.IO.Class   (liftIO)
 import           Network.Wai.Handler.Warp (run)
@@ -14,23 +16,38 @@ api :: Proxy API
 api = Proxy
 
 server :: Server API
-server = membersServer
+server = membersServer :<|> lightningTalksServer
 
-type API = MemberAPI
+type API = "api" :> "v1" :>
+  (
+    MemberAPI :<|> LightningTalksAPI
+  )
 
-type MemberAPI = "api" :> "v1" :>
+type MemberAPI = "members" :>
   (
     Get '[JSON] [Member]
   :<|> "random" :> Get '[JSON] Member
   )
 
+type LightningTalksAPI = "lightning_talks" :>
+    Get '[JSON] LightningTalk
+
 
 membersServer :: Server MemberAPI
 membersServer = getAllMembers :<|> getRandomMember
   where
-    getAllMembers = liftIO Queries.getAllMembers
+    getAllMembers = liftIO MQueries.getAllMembers
     getRandomMember = do
-      member <- liftIO Queries.getRandomMember
+      member <- liftIO MQueries.getRandomMember
       case member of
         Just member -> pure member
         _           -> throwError err404
+
+lightningTalksServer :: Server LightningTalksAPI
+lightningTalksServer = getLightningTalk
+  where
+    getLightningTalk = do
+      lt <- liftIO LTQueries.getLightningTalk
+      case lt of
+        Just lt -> pure lt
+        _       -> throwError err404
