@@ -23,6 +23,8 @@ executable lightning-talks
                     , MemberQueries
                     , MemberGateway
                     , Server
+                    , Aeson
+                    , LightningTalk
     build-depends:    base ^>=4.17.0.0
                     , servant
                     , servant-server

@@ -1,20 +1,14 @@
 {-# LANGUAGE TemplateHaskell #-}
 module Member where
 
+import           Aeson
 import           DB
 
 import           Control.Lens                   (makeLenses)
-import           Data.Char                      (toLower)
 import           Data.Text                      (Text)
 import           Database.SQLite.Simple.FromRow
 import           Deriving.Aeson
 
-
-data ToLower
-
-instance StringModifier ToLower where
-  getStringModifier ""       = ""
-  getStringModifier (c : xs) = toLower c : xs
 
 data Member = Member
   { _memberId        :: !Text    -- ^ The member's id (this is a UUID)
