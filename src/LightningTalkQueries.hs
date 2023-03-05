@@ -1,7 +1,8 @@
 module LightningTalkQueries where
 
 import           Data.Maybe             (listToMaybe)
-import           Database.SQLite.Simple (query_, withConnection)
+import           Database.SQLite.Simple (execute, execute_, query_,
+                                         withConnection)
 import           LightningTalk
 
 {-
@@ -14,6 +15,7 @@ import           LightningTalk
 -}
 
 -- | Get the currently scheduled lightning talk.
+--
 getLightningTalk :: IO (Maybe LightningTalk)
 getLightningTalk =
   let
@@ -22,4 +24,16 @@ getLightningTalk =
                       , " limit 1"
                       ]
    in withConnection "db.sqlite" $ \conn ->
-    listToMaybe <$> query_ conn query
+        listToMaybe <$> query_ conn query
+
+
+-- | Resets the scheduled lightning talk with the provided member id.
+--
+resetLightningTalk :: MemberId -> IO ()
+resetLightningTalk mId =
+  let query = mconcat [ "insert into lightning_talks (speaker, topic) "
+                      , "values (?, '')"
+                      ]
+   in withConnection "db.sqlite" $ \conn -> do
+        execute_ conn "delete from lightning_talks"
+        execute conn query [mId]
