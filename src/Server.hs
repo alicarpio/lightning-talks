@@ -6,7 +6,9 @@ import           Member
 import qualified MemberQueries                        as MQueries
 
 import           Control.Monad.IO.Class               (liftIO)
+import           Data.Aeson
 import           Data.Text                            (Text)
+import           GHC.Generics                         (Generic)
 import           Network.Wai.Handler.Warp             (run)
 import           Network.Wai.Middleware.RequestLogger (logStdout)
 import           Servant
@@ -32,8 +34,17 @@ type MemberAPI = "members" :>
   :<|> Capture "id" Text :> Get '[JSON] Member
   )
 
+newtype UpdateTopicPayload = UpdateTopicPayload
+  { topic :: Text
+  }
+  deriving stock (Generic)
+  deriving anyclass (FromJSON)
+
 type LightningTalksAPI = "lightning_talks" :>
+  (
     Get '[JSON] LightningTalk
+  :<|> ReqBody '[JSON] UpdateTopicPayload :> PatchNoContent
+  )
 
 
 membersServer :: Server MemberAPI
@@ -49,9 +60,14 @@ membersServer = getAllMembers :<|> getRandomMember :<|> getMemberById
       member <- liftIO MQueries.getRandomMember
       maybe (throwError err404) pure member
 
+
 lightningTalksServer :: Server LightningTalksAPI
-lightningTalksServer = getLightningTalk
+lightningTalksServer = getLightningTalk :<|> updateLightningTalkTopic
   where
     getLightningTalk = do
       lt <- liftIO LTQueries.getLightningTalk
       maybe (throwError err404) pure lt
+
+    updateLightningTalkTopic payload = do
+      liftIO $ LTQueries.updateLightningTalkTopic (topic payload)
+      pure NoContent

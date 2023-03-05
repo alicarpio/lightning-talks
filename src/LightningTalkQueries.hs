@@ -1,9 +1,13 @@
 module LightningTalkQueries where
 
 import           Data.Maybe             (listToMaybe)
+import           Data.Text              (Text)
 import           Database.SQLite.Simple (execute, execute_, query_,
                                          withConnection)
+
+
 import           LightningTalk
+
 
 {-
   At any given point there is only one row in the lightning talks
@@ -37,3 +41,12 @@ resetLightningTalk mId =
    in withConnection "db.sqlite" $ \conn -> do
         execute_ conn "delete from lightning_talks"
         execute conn query [mId]
+
+
+-- | Update the lightning talk's topic.
+--
+updateLightningTalkTopic :: Text -> IO ()
+updateLightningTalkTopic topic =
+  let query = "update lightning_talks set topic = ?"
+   in withConnection "db.sqlite" $ \conn -> do
+        execute conn query [topic]

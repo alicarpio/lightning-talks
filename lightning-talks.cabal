@@ -49,4 +49,5 @@ executable lightning-talks
                         , TypeApplications
                         , FlexibleContexts
                         , TypeOperators
+                        , DeriveAnyClass
 
