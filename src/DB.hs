@@ -10,6 +10,7 @@ class HasTable a where
   type TableStmt a :: Symbol
 
 -- | Create the table for any type that has a table.
+--
 createTable :: forall a. (HasTable a, KnownSymbol (TableStmt a)) => Proxy a -> IO ()
 createTable _ =
   let tableStmt = symbolVal (Proxy :: Proxy (TableStmt a))

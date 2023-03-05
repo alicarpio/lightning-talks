@@ -5,6 +5,8 @@ import           Member
 import           Control.Lens
 import           Data.Maybe             (listToMaybe)
 import           Database.SQLite.Simple
+import qualified Database.SQLite.Simple as SQLite
+import           LightningTalk          (MemberId)
 
 
 -- | Save a member to the database.
@@ -58,3 +60,15 @@ getRandomMember =
                  [member^.memberId]
           pure $ Just member
         _           -> pure Nothing
+
+
+-- | Get a member by their id.
+--
+getMemberById :: MemberId -> IO (Maybe Member)
+getMemberById memberId =
+  let query = mconcat [ "select id, first_name, last_name"
+                      , "  from members"
+                      , " where id = ?"
+                      ]
+  in withConnection "db.sqlite" $ \conn -> do
+      listToMaybe <$> SQLite.query conn query [memberId]
