@@ -1,5 +1,6 @@
 module MemberQueries where
 
+import qualified DB
 import           LightningTalk          (MemberId)
 import           LightningTalkQueries   (resetLightningTalk)
 import           Member
@@ -19,7 +20,7 @@ saveMember member =
                       , "values (?, ?, ?)"
                       ]
    in
-      withConnection "db.sqlite" $ \conn ->
+      DB.withConnection $ \conn ->
         execute conn query
                 [ member ^. memberId
                 , member ^. memberFirstName
@@ -36,7 +37,7 @@ getAllMembers =
                       , "  from members"
                       ]
    in
-      withConnection "db.sqlite" (`query_` query)
+      DB.withConnection (`query_` query)
 
 
 -- | Get a random member.
@@ -52,7 +53,7 @@ getRandomMember =
                       , " order by RANDOM() "
                       , " limit 1"
                       ]
-   in withConnection "db.sqlite" $ \conn -> do
+   in DB.withConnection $ \conn -> do
       result <- listToMaybe <$> query_ conn query
       case result of
         Just member -> do
@@ -70,5 +71,5 @@ getMemberById memberId =
                       , "  from members"
                       , " where id = ?"
                       ]
-  in withConnection "db.sqlite" $ \conn -> do
+  in DB.withConnection $ \conn -> do
       listToMaybe <$> SQLite.query conn query [memberId]

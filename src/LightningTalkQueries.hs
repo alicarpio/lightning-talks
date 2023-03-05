@@ -2,10 +2,11 @@ module LightningTalkQueries where
 
 import           Data.Maybe             (listToMaybe)
 import           Data.Text              (Text)
-import           Database.SQLite.Simple (execute, execute_, query_,
-                                         withConnection)
+import           Database.SQLite.Simple (execute, execute_, query_)
 
 
+
+import qualified DB
 import           LightningTalk
 
 
@@ -27,7 +28,7 @@ getLightningTalk =
                       , "  from lightning_talks"
                       , " limit 1"
                       ]
-   in withConnection "db.sqlite" $ \conn ->
+   in DB.withConnection $ \conn ->
         listToMaybe <$> query_ conn query
 
 
@@ -38,7 +39,7 @@ resetLightningTalk mId =
   let query = mconcat [ "insert into lightning_talks (speaker, topic) "
                       , "values (?, '')"
                       ]
-   in withConnection "db.sqlite" $ \conn -> do
+   in DB.withConnection $ \conn -> do
         execute_ conn "delete from lightning_talks"
         execute conn query [mId]
 
@@ -48,5 +49,5 @@ resetLightningTalk mId =
 updateLightningTalkTopic :: Text -> IO ()
 updateLightningTalkTopic topic =
   let query = "update lightning_talks set topic = ?"
-   in withConnection "db.sqlite" $ \conn -> do
+   in DB.withConnection $ \conn -> do
         execute conn query [topic]
