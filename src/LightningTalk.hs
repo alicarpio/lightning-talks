@@ -20,8 +20,8 @@ data LightningTalk = LightningTalk
 
 instance HasTable LightningTalk where
   type TableStmt LightningTalk =
-    "create table if not exists lightning_talk ( \
-    \  topic varchar not null \
+    "create table if not exists lightning_talks ( \
+    \  topic varchar not null, \
     \  speaker varchar not null \
     \)"
 
