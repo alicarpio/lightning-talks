@@ -9,8 +9,15 @@ body {
   background: #f7f6f3;
   color: #000;
   min-height: 100vh;
+  line-height: 1.5;
+  font-size: 16px;
 }
 
 button{
   cursor: pointer;
+}
+
+
+a{
+  text-decoration: none;
 }
