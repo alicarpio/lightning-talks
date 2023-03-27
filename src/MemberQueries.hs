@@ -1,10 +1,14 @@
 module MemberQueries where
 
+import qualified DB
+import           LightningTalk          (MemberId)
+import           LightningTalkQueries   (resetLightningTalk)
 import           Member
 
 import           Control.Lens
 import           Data.Maybe             (listToMaybe)
 import           Database.SQLite.Simple
+import qualified Database.SQLite.Simple as SQLite
 
 
 -- | Save a member to the database.
@@ -16,7 +20,7 @@ saveMember member =
                       , "values (?, ?, ?)"
                       ]
    in
-      withConnection "db.sqlite" $ \conn ->
+      DB.withConnection $ \conn ->
         execute conn query
                 [ member ^. memberId
                 , member ^. memberFirstName
@@ -33,7 +37,7 @@ getAllMembers =
                       , "  from members"
                       ]
    in
-      withConnection "db.sqlite" (`query_` query)
+      DB.withConnection (`query_` query)
 
 
 -- | Get a random member.
@@ -45,16 +49,27 @@ getRandomMember =
   let
       query = mconcat [ "select id, first_name, last_name"
                       , "  from members"
-                      , " where already_talked = 0"
+                      , " where already_talked = false"
                       , " order by RANDOM() "
                       , " limit 1"
                       ]
-   in withConnection "db.sqlite" $ \conn -> do
+   in DB.withConnection $ \conn -> do
       result <- listToMaybe <$> query_ conn query
       case result of
         Just member -> do
-          execute conn
-                 "update members set already_talked = true where id = ?"
-                 [member^.memberId]
+          execute conn "update members set already_talked = true where id = ?" [member^.memberId]
+          resetLightningTalk $ member^.memberId
           pure $ Just member
         _           -> pure Nothing
+
+
+-- | Get a member by their id.
+--
+getMemberById :: MemberId -> IO (Maybe Member)
+getMemberById memberId =
+  let query = mconcat [ "select id, first_name, last_name"
+                      , "  from members"
+                      , " where id = ?"
+                      ]
+  in DB.withConnection $ \conn -> do
+      listToMaybe <$> SQLite.query conn query [memberId]
