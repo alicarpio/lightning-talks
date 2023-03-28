@@ -3,7 +3,7 @@
     color: black;
     height: 75px;
     margin-top: 22px;
-    border-bottom: 1px solid #f7f6f3 ;
+    border-bottom: 1px solid #f7f6f3;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.15);
     padding-bottom: 30px;
 
@@ -35,7 +35,7 @@
     margin-left: 15px;
 }
 
-.login{
+.login {
     height: 45px;
     padding: 0 25px;
     background: #ffa02d;
@@ -50,7 +50,7 @@
     color: black;
 }
 
-.login:hover{
+.login:hover {
     box-shadow: 5px -3px 0 #000;
 }
 
