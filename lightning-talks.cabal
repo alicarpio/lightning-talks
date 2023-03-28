@@ -1,16 +1,15 @@
 cabal-version:      3.0
 name:               lightning-talks
 version:            0.1.0.0
--- synopsis:
--- description:
+synopsis:           API for Kokoa Lightning Talks.
+description:        API for Kokoa Lightning Talks.
 license:            MIT
 license-file:       LICENSE
 author:             Alexander Goussas
 maintainer:         goussasalexander@gmail.com
--- copyright:
+copyright:          Club Kokoa 2023
 build-type:         Simple
 extra-doc-files:    CHANGELOG.md
--- extra-source-files:
 
 common warnings
     ghc-options: -Wall -Wno-name-shadowing
@@ -30,6 +29,7 @@ executable lightning-talks
                     , servant
                     , servant-server
                     , wai
+                    , wai-extra
                     , warp
                     , sqlite-simple
                     , text
@@ -49,4 +49,5 @@ executable lightning-talks
                         , TypeApplications
                         , FlexibleContexts
                         , TypeOperators
+                        , DeriveAnyClass
 

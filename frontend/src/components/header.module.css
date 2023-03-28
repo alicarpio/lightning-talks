@@ -50,7 +50,12 @@
     color: black;
 }
 
+<<<<<<< HEAD
 .login:hover {
+=======
+.login:hover{
+    transform: translate(-2px, 2px);
+>>>>>>> 1c6aa663a300dfcd278627c1281b1a3c01188b1a
     box-shadow: 5px -3px 0 #000;
 }
 
