@@ -1,5 +1,7 @@
-// import './styles/global.css'
 import {Header} from "./components/Header"
+import {Card} from "./components/Card.jsx";
+import styles from "./styles/card.module.css"
+
 
 function App() {
 
@@ -7,8 +9,8 @@ function App() {
         <>
             <Header/>
             <main>
-                <div>
-
+                <div className='Container'>
+                    <Card/>
                 </div>
             </main>
         </>
