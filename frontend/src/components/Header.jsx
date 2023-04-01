@@ -1,6 +1,6 @@
 import React from 'react'
 import kokoalogo from '../assets/logo-kokoa-50dpi.png'
-import styles from './header.module.css';
+import styles from '../styles/header.module.css';
 
 export const Header = () => {
     return (
