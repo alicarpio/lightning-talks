@@ -5,23 +5,21 @@
     justify-content: center;
 }
 
-
 .card {
     background: #ffffff;
     margin: auto;
     max-width: 425px;
     width: 100%;
-    border: 3px solid #7e573b;
+    border: 3.5px solid #7e573b;
     border-radius: 25px;
     height: 48vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
 }
 
 .cardBody {
-    margin-top: 70px;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -29,25 +27,30 @@
     width: 100%;
 }
 
-.speaker{
+.speaker {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
 
-.cardBody h2{
+.cardBody h2 {
     font-size: 25px;
 }
 
-.cardBody p{
+.cardBody p {
     font-size: 18px;
 }
 
-.theme{
+.theme {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.card img {
+    max-height: 85px;
+    display: flex;
+    justify-content: center;
+}
 

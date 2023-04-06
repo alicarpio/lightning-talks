@@ -1,13 +1,16 @@
 import React from 'react'
 import styles from '../styles/card.module.css'
+import streaminglogo from '../assets/live-streaming.png'
+
 
 export const Card = () => {
     return (
         <>
             <div className={styles.container}>
                 <div className={styles.card}>
-                    <div className={styles.cardHeader}>
-                    </div>
+
+                    <img src={streaminglogo} alt='hello'></img>
+
                     <div className={styles.cardBody}>
                         <div className={styles.speaker}>
                             <h2>Speaker</h2>
