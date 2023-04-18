@@ -8,15 +8,12 @@ export const Card = () => {
         <>
             <div className={styles.container}>
                 <div className={styles.card}>
-
                     <img src={streaminglogo} alt='hello'></img>
-
                     <div className={styles.cardBody}>
                         <div className={styles.speaker}>
                             <h2>Speaker</h2>
                             <p>Alexander Goussas</p>
                         </div>
-
                         <div className={styles.theme}>
                             <h2>Theme</h2>
                             <p>ChatGPT y su evolución</p>

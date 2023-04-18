@@ -1,21 +1,28 @@
 import {Header} from "./components/Header"
-import {Card} from "./components/Card.jsx";
-import styles from "./styles/card.module.css"
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {Login} from "./screens/Login.jsx";
+import {HomeScreen} from "./screens/HomeScreen.jsx";
+import {useState} from 'react'
 
 function App() {
+    const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+    function handleButtonClick() {
+        setIsButtonClicked(true);
+      }
 
     return (
-        <>
-            <Header/>
+        <Router>
+           {!isButtonClicked && <Header onButtonClick={handleButtonClick}/>}
             <main>
                 <div className='Container'>
-                    <Card/>
+                    <Routes>
+                        <Route path="/" element={<HomeScreen/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                    </Routes>
                 </div>
             </main>
-        </>
-
-
+        </Router>
     )
 }
 

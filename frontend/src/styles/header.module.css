@@ -26,13 +26,15 @@
 }
 
 .titleNav img {
-    max-height: 55px;
+    max-height: 52px;
 
 }
 
-.titleNav h1 {
-    font-size: 28px;
-    margin-left: 15px;
+.titleNav a {
+    font-size: 22px;
+    color: black;
+    margin-left: 10px;
+    font-weight: bold;
 }
 
 .login {
